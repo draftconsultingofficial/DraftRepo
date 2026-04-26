@@ -4,12 +4,29 @@ import { formatDate, parseMarkdown, stripMarkdown } from "@/lib/format";
 import { JobModel } from "@/models/Job";
 import { PublicFooter } from "@/components/public/footer";
 import { PublicHeader } from "@/components/public/header";
+import { companyName, defaultSiteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Open Jobs",
+  title: "Open Jobs | Draft Consulting",
   description: "Browse open hiring opportunities published by Draft Consulting.",
+  openGraph: {
+    title: "Open Jobs | Draft Consulting",
+    description: "Browse open hiring opportunities published by Draft Consulting.",
+    url: `${defaultSiteUrl}/jobs`,
+    images: [{ url: `${defaultSiteUrl}/logo.png`, width: 1200, height: 630, alt: companyName }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Open Jobs | Draft Consulting",
+    description: "Browse open hiring opportunities published by Draft Consulting.",
+    images: [`${defaultSiteUrl}/logo.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function JobsPage() {
@@ -32,6 +49,19 @@ export default async function JobsPage() {
     return (
       <div className="min-h-screen bg-white">
         <PublicHeader />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: defaultSiteUrl },
+                { "@type": "ListItem", position: 2, name: "Jobs", item: `${defaultSiteUrl}/jobs` },
+              ],
+            }),
+          }}
+        />
         <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
           <div className="panel max-w-3xl rounded-lg p-10">
             <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">

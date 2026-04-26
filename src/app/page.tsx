@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { connectToDatabase } from "@/lib/db";
 import { formatDate, parseMarkdown, stripMarkdown } from "@/lib/format";
-import { companyName } from "@/lib/site";
+import { companyName, companyTagline, defaultSiteUrl } from "@/lib/site";
 import { JobModel } from "@/models/Job";
 import { BannerModel } from "@/models/Banner";
 import { PublicFooter } from "@/components/public/footer";
@@ -10,6 +10,29 @@ import { PublicHeader } from "@/components/public/header";
 import BannerCarousel from "@/components/public/banner-carousel";
 
 export const dynamic = "force-dynamic";
+
+export const metadata = {
+  title: `${companyName} | Executive Recruitment & Placement`,
+  description: companyTagline,
+  openGraph: {
+    title: `${companyName} | Executive Recruitment & Placement`,
+    description: companyTagline,
+    url: defaultSiteUrl,
+    siteName: companyName,
+    images: [{ url: `${defaultSiteUrl}/logo.png`, width: 1200, height: 630, alt: companyName }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${companyName} | Executive Recruitment & Placement`,
+    description: companyTagline,
+    images: [`${defaultSiteUrl}/logo.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default async function Home() {
   await connectToDatabase();
@@ -31,6 +54,19 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: companyName,
+            url: defaultSiteUrl,
+            logo: `${defaultSiteUrl}/logo.png`,
+            description: companyTagline,
+          }),
+        }}
+      />
       
       {/* Hero Banner Section */}
       {activeBanners.length > 0 ? (

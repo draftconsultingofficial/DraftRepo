@@ -77,6 +77,20 @@ export default async function JobDetailPage({
   return (
     <div className="min-h-screen bg-white">
       <PublicHeader />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: defaultSiteUrl },
+              { "@type": "ListItem", position: 2, name: "Jobs", item: `${defaultSiteUrl}/jobs` },
+              { "@type": "ListItem", position: 3, name: job.title, item: `${defaultSiteUrl}/jobs/${job.slug}` },
+            ],
+          }),
+        }}
+      />
       <main className="mx-auto max-w-7xl px-6 py-16 lg:px-8 lg:py-20">
         <section className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           <div className="space-y-8">

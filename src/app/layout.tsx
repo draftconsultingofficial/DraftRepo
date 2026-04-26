@@ -50,6 +50,12 @@ export const metadata: Metadata = {
     description: companyTagline,
     images: [`${defaultSiteUrl}/logo.png`],
   },
+  alternates: {
+    canonical: defaultSiteUrl,
+    languages: {
+      "en-US": defaultSiteUrl,
+    },
+  },
 };
 
 export default function RootLayout({
