@@ -53,15 +53,16 @@ export async function saveBannerAction(formData: FormData) {
         const uploaded = await saveUploadedFile(imageFile, ["uploads", "banners"], "public");
         imagePath = uploaded.relativePath;
         if (uploaded.r2Key) r2KeyToSave = uploaded.r2Key;
-      } catch (error) {
+      } catch (error: any) {
         await logError({
             title: "Banner image upload failed",
-            message: String(error),
+            message: error?.message || String(error),
+            stackTrace: error?.stack,
             category: "file",
             severity: "high",
             userEmail: session.email,
           });
-        throw new Error("Failed to upload image");
+        throw new Error(`Failed to upload image: ${error?.message || "Unknown error"}`);
       }
     }
 

@@ -18,33 +18,40 @@ export async function uploadToR2(
   file: File,
   folder: string,
   customBaseName?: string,
+  buffer?: Buffer,
 ): Promise<{
   key: string;
   url: string;
   originalName: string;
 }> {
-  const bytes = Buffer.from(await file.arrayBuffer());
-  const ext = file.name.split(".").pop()?.toLowerCase() || "pdf";
+  const bytes = buffer || Buffer.from(await file.arrayBuffer());
+  const ext = file.name ? file.name.split(".").pop()?.toLowerCase() : "bin";
   const safeName = customBaseName
     ? `${customBaseName.replace(/[^a-zA-Z0-9_-]/g, "_")}.${ext}`
     : `${Date.now()}-${sanitizeFileName(file.name || "upload")}`;
   const key = `${folder}/${safeName}`;
 
+  if (!process.env.R2_BUCKET_NAME) {
+    throw new Error("R2_BUCKET_NAME is not configured");
+  }
+
   const command = new PutObjectCommand({
-    Bucket: process.env.R2_BUCKET_NAME || "",
+    Bucket: process.env.R2_BUCKET_NAME,
     Key: key,
     Body: bytes,
-    ContentType: file.type,
+    ContentType: file.type || "application/octet-stream",
   });
 
   await s3Client.send(command);
 
-  const publicUrl = `${process.env.R2_PUBLIC_URL}/${key}`;
+  const publicUrl = process.env.R2_PUBLIC_URL 
+    ? `${process.env.R2_PUBLIC_URL}/${key}`
+    : `https://${process.env.R2_BUCKET_NAME}.r2.cloudflarestorage.com/${key}`;
 
   return {
     key,
     url: publicUrl,
-    originalName: file.name,
+    originalName: file.name || "upload",
   };
 }
 
