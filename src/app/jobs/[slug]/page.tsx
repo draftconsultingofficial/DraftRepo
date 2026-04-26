@@ -24,7 +24,7 @@ export async function generateMetadata({
   }
 
   const title = job.seoTitle || `${job.title} in ${job.location}`;
-  const description = job.seoDescription || job.shortDescription;
+  const description = job.seoDescription || job.description;
   const image = `${defaultSiteUrl}/jobs/${job.slug}/opengraph-image`;
   const logo = job.companyLogo ? (job.companyLogo.startsWith("/") ? `${defaultSiteUrl}${job.companyLogo}` : job.companyLogo) : null;
 

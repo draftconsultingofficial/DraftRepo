@@ -28,8 +28,8 @@ export function parseMarkdown(text: string) {
 
   // Lists
   html = html.replace(/^[\-|\*|•]\s+(.*$)/gim, '<li class="ml-6 list-disc mb-2 pl-1">$1</li>');
-  html = html.replace(/(<li.*<\/li>)\n?/gim, '<ul class="mb-6 mt-2">$1</ul>');
-  html = html.replace(/<\/ul>\n<ul class="mb-6 mt-2">/gim, '');
+  html = html.replace(/(<li.*<\/li>)\n?/gim, '<ul class="mb-2 mt-2">$1</ul>');
+  html = html.replace(/<\/ul>\n<ul class="mb-2 mt-2">/gim, '');
 
   // Bold headings (pseudo-headings they might have used like "Responsibilities:")
   html = html.replace(/^([A-Z][a-zA-Z\s]+):$/gim, '<h4 class="text-lg font-bold mt-8 mb-3 text-gray-900">$1:</h4>');

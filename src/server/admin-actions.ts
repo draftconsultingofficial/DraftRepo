@@ -245,6 +245,40 @@ export async function deleteStaffAction(formData: FormData) {
   revalidatePath("/admin/team");
 }
 
+export async function updateStaffRoleAction(_: ActionState | undefined, formData: FormData) {
+  const session = await requireMainAdmin();
+  const userId = getValue(formData, "userId");
+  const role = getValue(formData, "role") as "main_admin" | "contributor";
+
+  if (!userId || !role) {
+    return { success: false, message: "User id and role are required." };
+  }
+
+  if (!["main_admin", "contributor"].includes(role)) {
+    return { success: false, message: "Invalid role specified." };
+  }
+
+  await connectToDatabase();
+
+  const objectId = getObjectId(userId);
+  if (!objectId) return { success: false, message: "Invalid user id." };
+
+  const user = await StaffUserModel.findById(objectId);
+  if (!user) return { success: false, message: "User not found." };
+
+  if (user.email.toLowerCase() === process.env.MAIN_ADMIN_EMAIL?.toLowerCase() && role !== "main_admin") {
+    return { success: false, message: "Cannot change main admin role." };
+  }
+
+  user.role = role;
+  await user.save();
+
+  await logAction("UPDATED_USER_ROLE", session.email, `Updated role for ${user.email} to ${role}`);
+  revalidatePath("/admin/team");
+
+  return { success: true, message: "Role updated successfully." };
+}
+
 export async function saveSettingsAction(formData: FormData) {
   await requireMainAdmin();
   await connectToDatabase();
