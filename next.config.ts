@@ -39,7 +39,7 @@ function getR2Pattern(): RemotePattern | undefined {
     if (!raw) return undefined;
     const u = new URL(raw);
     return {
-      protocol: u.protocol.replace(":", ""), // "https"
+      protocol: u.protocol.replace(":", "") as "http" | "https", // "https"
       hostname: u.hostname,
       port: u.port || undefined,
       pathname: "/**",
