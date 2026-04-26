@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { companyName, companyTagline, defaultSiteUrl } from "@/lib/site";
-import logoImg from "@/assets/logo.png";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -38,9 +37,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: logoImg.src || `${defaultSiteUrl}/logo.png`,
-        width: (logoImg as any).width || 1200,
-        height: (logoImg as any).height || 630,
+        url: `${defaultSiteUrl}/logo.png`,
+        width: 1200,
+        height: 630,
         alt: companyName,
       },
     ],
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${companyName} | Job Consulting & Placement`,
     description: companyTagline,
-    images: [logoImg.src || `${defaultSiteUrl}/logo.png`],
+    images: [`${defaultSiteUrl}/logo.png`],
   },
 };
 
