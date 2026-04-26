@@ -8,8 +8,8 @@ export function PublicHeader() {
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm shadow-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <div className="relative h-10 w-10 md:h-14 md:w-14 flex items-center justify-center rounded-lg border border-gray-100 bg-white overflow-hidden">
-            <Image src="/logo.png" alt={companyName} fill className="object-contain p-1 md:p-2" />
+            <div className="relative h-10 w-10 md:h-14 md:w-14 flex items-center justify-center rounded-lg border border-gray-100 bg-white overflow-hidden">
+            <Image src="/logo.png" alt={companyName} fill sizes="(max-width: 768px) 40px, 56px" className="object-contain p-1 md:p-2" />
           </div>
           <div>
             <div className="font-semibold text-gray-900 text-xl md:text-2xl">{companyName}</div>

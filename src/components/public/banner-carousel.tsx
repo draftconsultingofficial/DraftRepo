@@ -27,7 +27,7 @@ export default function BannerCarousel({ banners }: { banners: SimpleBanner[] })
   return (
     <section aria-label="Hero banner" className="relative h-96 md:h-125 overflow-hidden">
       {b.imagePath && (
-        <Image src={b.imagePath} alt={b.title || "Banner"} fill className="object-cover" priority />
+        <Image src={b.imagePath} alt={b.title || "Banner"} fill sizes="(max-width: 768px) 640px, 1200px" className="object-cover" priority />
       )}
       <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/30 to-transparent" />
       <div className="absolute inset-0 flex items-center px-6 lg:px-8">

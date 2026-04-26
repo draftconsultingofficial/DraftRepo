@@ -2,6 +2,7 @@ import { requireMainAdmin } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import { listR2Objects } from "@/lib/r2";
 import { ApplicationModel } from "@/models/Application";
+import { BannerModel } from "@/models/Banner";
 import { formatDate } from "@/lib/format";
 import { SafeDelete } from "@/components/admin/delete-action";
 import { deleteR2ObjectAction } from "@/server/storage-actions";
@@ -24,16 +25,29 @@ export default async function StoragePage() {
   await requireMainAdmin();
   await connectToDatabase();
 
-  const [r2Objects, applications] = await Promise.all([
+  const [r2Resumes, r2Uploads, applications, banners] = await Promise.all([
     listR2Objects("resumes/"),
+    listR2Objects("uploads/"),
     ApplicationModel.find({}, { resumeKey: 1, name: 1, email: 1, jobTitle: 1, createdAt: 1 }).lean(),
+    BannerModel.find({}, { imagePath: 1 }).lean(),
   ]);
+
+  const r2Objects = [...r2Resumes, ...r2Uploads];
 
   const linkedKeys = new Set(applications.map((a) => a.resumeKey));
   const appsByKey = new Map(applications.map((a) => [a.resumeKey, a]));
 
+  const bannerImagePaths = banners.map((b: any) => b.imagePath || "");
+
   const totalSize = r2Objects.reduce((sum, obj) => sum + obj.size, 0);
-  const orphanCount = r2Objects.filter((obj) => !linkedKeys.has(obj.key)).length;
+  const orphanCount = r2Objects.filter((obj) => {
+    if (linkedKeys.has(obj.key)) return false;
+    for (const p of bannerImagePaths) {
+      if (!p) continue;
+      if (p.includes(obj.key) || p.endsWith(obj.key) || p.includes(obj.key.split("/").pop() || "")) return false;
+    }
+    return true;
+  }).length;
 
   const accountId = process.env.CF_ACCOUNT_ID;
   const bucketName = process.env.R2_BUCKET_NAME;

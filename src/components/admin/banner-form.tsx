@@ -187,7 +187,7 @@ export function BannerForm({ banner }: { banner?: BannerShape }) {
             <p className="text-xs text-green-600">✓ Image dimensions: {imageDimensions}</p>
           )}
           {previewSrc && (
-            <div className="mt-4">
+              <div className="mt-4">
               <p className="text-xs text-gray-600 mb-2">Preview (crop before saving)</p>
               <div className="rounded overflow-hidden border border-gray-200">
                 <Image
@@ -195,7 +195,7 @@ export function BannerForm({ banner }: { banner?: BannerShape }) {
                   alt="preview"
                   width={600}
                   height={224}
-                  className="w-full object-cover max-h-56"
+                  className="w-full h-auto object-cover max-h-56"
                   unoptimized
                 />
               </div>
@@ -227,13 +227,13 @@ export function BannerForm({ banner }: { banner?: BannerShape }) {
             </div>
           )}
           {banner?.imagePath && !imageDimensions && (
-            <div className="rounded-lg overflow-hidden border border-gray-200 mt-4">
+              <div className="rounded-lg overflow-hidden border border-gray-200 mt-4 relative h-32">
               <Image
                 src={banner.imagePath}
                 alt={banner.title || "Banner"}
-                width={600}
-                height={300}
-                className="h-32 w-full object-cover"
+                fill
+                sizes="320px"
+                className="object-cover"
               />
             </div>
           )}

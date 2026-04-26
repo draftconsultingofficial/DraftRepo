@@ -7,6 +7,9 @@ import { redirect } from "next/navigation";
 import { requireMainAdmin, requireSession } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
 import { saveUploadedFile } from "@/lib/files";
+import { deleteFromR2 } from "@/lib/r2";
+import { unlink } from "node:fs/promises";
+import path from "node:path";
 import { BannerModel } from "@/models/Banner";
 import { StaffUserModel } from "@/models/StaffUser";
 import { logError } from "@/lib/error-handler";
@@ -43,11 +46,13 @@ export async function saveBannerAction(formData: FormData) {
     }
 
     let imagePath = existingImagePath;
+    let r2KeyToSave: string | undefined;
 
     if (imageFile && imageFile.size > 0) {
       try {
         const uploaded = await saveUploadedFile(imageFile, ["uploads", "banners"], "public");
         imagePath = uploaded.relativePath;
+        if (uploaded.r2Key) r2KeyToSave = uploaded.r2Key;
       } catch (error) {
         await logError({
             title: "Banner image upload failed",
@@ -67,7 +72,7 @@ export async function saveBannerAction(formData: FormData) {
     if (bannerId && Types.ObjectId.isValid(bannerId)) {
       // existing banners can be updated by contributors
       await requireSession();
-      await BannerModel.findByIdAndUpdate(bannerId, {
+      const updatePayload: any = {
         title,
         description,
         imagePath,
@@ -77,12 +82,16 @@ export async function saveBannerAction(formData: FormData) {
         isActive,
         position,
         aspectRatio,
-      });
+      };
+      if (r2KeyToSave) updatePayload.r2Key = r2KeyToSave;
+
+      await BannerModel.findByIdAndUpdate(bannerId, updatePayload);
     } else {
       const created = await BannerModel.create({
         title,
         description,
         imagePath,
+        r2Key: r2KeyToSave || "",
         link,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
@@ -135,6 +144,33 @@ export async function deleteBannerAction(formData: FormData) {
     const bannerId = formData.get("bannerId") as string;
     if (!bannerId || !Types.ObjectId.isValid(bannerId)) {
       throw new Error("Invalid banner id");
+    }
+
+    const banner = await BannerModel.findById(bannerId).lean();
+    if (!banner) throw new Error("Banner not found");
+
+    // Attempt to delete R2 object if we have a key or can derive one from imagePath
+    try {
+      const r2Key = (banner as any).r2Key || "";
+      if (r2Key) {
+        await deleteFromR2(r2Key);
+      } else if (banner.imagePath && process.env.R2_PUBLIC_URL && banner.imagePath.includes(process.env.R2_PUBLIC_URL)) {
+        const key = banner.imagePath.replace(`${process.env.R2_PUBLIC_URL}/`, "");
+        if (key) await deleteFromR2(key);
+      }
+    } catch (err) {
+      console.warn("Failed to delete banner object from R2", err);
+    }
+
+    // Attempt to delete local public file if present
+    try {
+      if (banner.imagePath && banner.imagePath.startsWith("/")) {
+        const localRel = banner.imagePath.slice(1);
+        const localPath = path.join(process.cwd(), localRel);
+        await unlink(localPath).catch(() => undefined);
+      }
+    } catch (err) {
+      console.warn("Failed to delete local banner file", err);
     }
 
     await BannerModel.findByIdAndDelete(bannerId);

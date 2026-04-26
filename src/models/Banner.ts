@@ -5,6 +5,7 @@ const BannerSchema = new Schema(
     title: { type: String, required: true, trim: true },
     description: { type: String, trim: true, default: "" },
     imagePath: { type: String, required: true },
+    r2Key: { type: String, trim: true, default: "" },
     link: { type: String, trim: true, default: "" },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },

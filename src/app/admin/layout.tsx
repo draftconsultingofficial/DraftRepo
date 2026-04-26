@@ -43,7 +43,7 @@ export default async function AdminLayout({
           <Link href="/admin" className="block rounded-lg border border-gray-200 bg-gray-50 px-4 py-4 hover:bg-gray-100 transition">
             <div className="flex items-center gap-3">
                 <div className="relative h-12 w-12 flex items-center justify-center rounded-lg border border-gray-200 bg-white overflow-hidden p-1">
-                  <Image src="/logo.png" alt="Draft" fill className="object-contain p-1" />
+                  <Image src="/logo.png" alt="Draft" fill sizes="48px" className="object-contain p-1" />
                 </div>
               <div>
                 <div className="text-xs font-semibold uppercase tracking-wider text-gray-500">Dashboard</div>

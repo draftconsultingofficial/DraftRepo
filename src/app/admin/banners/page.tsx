@@ -31,9 +31,9 @@ export default async function BannersPage() {
       <div className="grid gap-4">
         {banners.map((b: any) => (
           <article key={String(b._id)} className="admin-card p-4 flex items-center gap-4">
-            <div className="w-48 h-24 overflow-hidden rounded">
+            <div className="relative w-48 h-24 rounded overflow-hidden">
               {b.imagePath ? (
-                <Image src={b.imagePath} alt={b.title || "Banner"} width={320} height={180} className="object-cover w-full h-full" />
+                <Image src={b.imagePath} alt={b.title || "Banner"} fill sizes="192px" className="object-cover" />
               ) : (
                 <div className="bg-gray-100 w-full h-full flex items-center justify-center text-sm text-gray-500">No image</div>
               )}
