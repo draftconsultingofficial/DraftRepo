@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { connectToDatabase } from "@/lib/db";
-import { defaultSiteUrl } from "@/lib/site";
+import { defaultSiteUrl, companyName } from "@/lib/site";
 import { parseMarkdown } from "@/lib/format";
 import { JobModel } from "@/models/Job";
 import { ApplyForm } from "@/components/public/apply-form";
@@ -25,8 +25,8 @@ export async function generateMetadata({
 
   const title = job.seoTitle || `${job.title} in ${job.location}`;
   const description = job.seoDescription || job.description;
-  const image = `${defaultSiteUrl}/jobs/${job.slug}/opengraph-image`;
-  const logo = job.companyLogo ? (job.companyLogo.startsWith("/") ? `${defaultSiteUrl}${job.companyLogo}` : job.companyLogo) : null;
+  // Always use the public logo.png for social previews regardless of URL
+  const logo = `${defaultSiteUrl}/logo.png`;
 
   return {
     title,
@@ -36,13 +36,15 @@ export async function generateMetadata({
       description,
       type: "article",
       url: `${defaultSiteUrl}/jobs/${job.slug}`,
-      images: logo ? [{ url: logo, width: 600, height: 600, alt: job.companyName }, { url: image, width: 1200, height: 630, alt: job.title }] : [{ url: image, width: 1200, height: 630, alt: job.title }],
+      images: [
+        { url: logo, width: 1200, height: 630, alt: job.companyName || companyName },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: logo ? [logo, image] : [image],
+      images: [logo],
     },
   };
 }
