@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { connectToDatabase } from "@/lib/db";
-import { defaultSiteUrl, companyName } from "@/lib/site";
+import { defaultSiteUrl, companyName, companyInfo } from "@/lib/site";
 import { parseMarkdown } from "@/lib/format";
 import { JobModel } from "@/models/Job";
 import { ApplyForm } from "@/components/public/apply-form";
