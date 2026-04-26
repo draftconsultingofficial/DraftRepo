@@ -4,7 +4,7 @@ import { formatDate, parseMarkdown, stripMarkdown } from "@/lib/format";
 import { JobModel } from "@/models/Job";
 import { PublicFooter } from "@/components/public/footer";
 import { PublicHeader } from "@/components/public/header";
-import { companyName, defaultSiteUrl } from "@/lib/site";
+import { companyName, defaultSiteUrl, companyInfo } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +15,16 @@ export const metadata = {
     title: "Open Jobs | Draft Consulting",
     description: "Browse open hiring opportunities published by Draft Consulting.",
     url: `${defaultSiteUrl}/jobs`,
-    images: [{ url: `${defaultSiteUrl}/logo.png`, width: 1200, height: 630, alt: companyName }],
+    images: [
+      { url: `https://${companyInfo.website}/logo.png`, width: 1200, height: 630, alt: companyName },
+      { url: `https://www.${companyInfo.website}/logo.png`, width: 1200, height: 630, alt: companyName },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Open Jobs | Draft Consulting",
     description: "Browse open hiring opportunities published by Draft Consulting.",
-    images: [`${defaultSiteUrl}/logo.png`],
+    images: [`https://${companyInfo.website}/logo.png`, `https://www.${companyInfo.website}/logo.png`],
   },
   robots: {
     index: true,

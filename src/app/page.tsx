@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { connectToDatabase } from "@/lib/db";
 import { formatDate, parseMarkdown, stripMarkdown } from "@/lib/format";
-import { companyName, companyTagline, defaultSiteUrl } from "@/lib/site";
+import { companyName, companyTagline, defaultSiteUrl, companyInfo } from "@/lib/site";
 import { JobModel } from "@/models/Job";
 import { BannerModel } from "@/models/Banner";
 import { PublicFooter } from "@/components/public/footer";
@@ -19,14 +19,17 @@ export const metadata = {
     description: companyTagline,
     url: defaultSiteUrl,
     siteName: companyName,
-    images: [{ url: `${defaultSiteUrl}/logo.png`, width: 1200, height: 630, alt: companyName }],
+    images: [
+      { url: `https://${companyInfo.website}/logo.png`, width: 1200, height: 630, alt: companyName },
+      { url: `https://www.${companyInfo.website}/logo.png`, width: 1200, height: 630, alt: companyName },
+    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: `${companyName} | Executive Recruitment & Placement`,
     description: companyTagline,
-    images: [`${defaultSiteUrl}/logo.png`],
+    images: [`https://${companyInfo.website}/logo.png`, `https://www.${companyInfo.website}/logo.png`],
   },
   robots: {
     index: true,

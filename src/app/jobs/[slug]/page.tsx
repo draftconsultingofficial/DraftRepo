@@ -26,7 +26,8 @@ export async function generateMetadata({
   const title = job.seoTitle || `${job.title} in ${job.location}`;
   const description = job.seoDescription || job.description;
   // Always use the public logo.png for social previews regardless of URL
-  const logo = `${defaultSiteUrl}/logo.png`;
+  const logo1 = `https://${companyInfo.website}/logo.png`;
+  const logo2 = `https://www.${companyInfo.website}/logo.png`;
 
   return {
     title,
@@ -37,14 +38,15 @@ export async function generateMetadata({
       type: "article",
       url: `${defaultSiteUrl}/jobs/${job.slug}`,
       images: [
-        { url: logo, width: 1200, height: 630, alt: job.companyName || companyName },
+        { url: logo1, width: 1200, height: 630, alt: job.companyName || companyName },
+        { url: logo2, width: 1200, height: 630, alt: job.companyName || companyName },
       ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [logo],
+      images: [logo1, logo2],
     },
   };
 }
