@@ -22,6 +22,14 @@ async function verifySession(token: string) {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Redirect www.<host> to non-www to keep a single canonical host
+  const host = request.headers.get("host") || "";
+  if (host.startsWith("www.")) {
+    const url = request.nextUrl.clone();
+    url.hostname = host.replace(/^www\./i, "");
+    return NextResponse.redirect(url);
+  }
+
   if (pathname.startsWith("/api/resumes")) {
     const token = request.cookies.get(SESSION_COOKIE)?.value;
 
