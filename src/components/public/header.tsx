@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import logoImg from "@/assets/logo.png";
-import { navItems, companyName } from "@/lib/site";
+import { navItems, companyName, companyTagline } from "@/lib/site";
 
 export function PublicHeader() {
   return (
@@ -13,7 +13,7 @@ export function PublicHeader() {
           </div>
           <div>
             <div className="font-semibold text-gray-900 text-xl md:text-2xl">{companyName}</div>
-            <div className="mt-1 text-xs md:text-sm text-gray-500">Experienced recruitment consultants</div>
+            <div className="mt-1 text-xs md:text-sm text-gray-500">{companyTagline}</div>
           </div>
         </Link>
 
