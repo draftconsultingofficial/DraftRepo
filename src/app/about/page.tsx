@@ -83,6 +83,27 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Leadership Section - Brief intro pointing to Team page */}
+        <section className="mb-20">
+          <div className="mb-10">
+            <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
+              Trusted Leadership
+            </p>
+            <h2 className="mt-3 font-semibold text-3xl text-gray-900">Guided by Industry Veterans</h2>
+            <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-600">
+              Our leadership team brings 25+ years of combined experience in HR recruitment, banking, and financial services. We're dedicated to building meaningful connections between talent and opportunity.
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <a href="/team" className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition-colors">
+              Meet Our Team
+              <svg className="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </section>
+
         {/* Contact Info Section */}
         <section className="panel rounded-lg p-10 bg-linear-to-br from-blue-50 to-gray-50">
           <h2 className="font-semibold text-2xl text-gray-900">Contact Information</h2>
