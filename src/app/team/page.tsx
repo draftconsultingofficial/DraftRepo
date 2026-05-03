@@ -50,14 +50,14 @@ export default function TeamPage() {
             <div className="md:col-span-1">
   <img
     src="https://quickpeople.in/wp-content/uploads/2025/07/Savita-Rani_Co-founder-Director.jpg"
-    alt="Savita Rani - Co-founder & Director"
+    alt="Savita Rani - Co-founder & Partners"
     className="w-full rounded-lg object-contain shadow-lg"
   />
 </div>
 
             <div className="md:col-span-2">
               <h3 className="font-semibold text-3xl text-gray-900">Savita Rani</h3>
-              <p className="mt-2 text-lg font-medium text-blue-600">Co-founder & Director</p>
+              <p className="mt-2 text-lg font-medium text-blue-600">Co-founder & Designated Partner</p>
               
               <div className="mt-6 space-y-4 text-base leading-7 text-gray-600">
                 <p>
@@ -105,7 +105,7 @@ export default function TeamPage() {
 
             <div className="md:col-span-2 md:order-1">
               <h3 className="font-semibold text-3xl text-gray-900">Rakesh Kumar</h3>
-              <p className="mt-2 text-lg font-medium text-blue-600">Business Partner & National Head – HRBP</p>
+              <p className="mt-2 text-lg font-medium text-blue-600">Designated Partner</p>
               
               <div className="mt-6 space-y-4 text-base leading-7 text-gray-600">
                 <p>
